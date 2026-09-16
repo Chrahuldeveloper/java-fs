@@ -2,8 +2,7 @@
 
 A simple file system built from scratch in Java to understand how file systems work internally.
 
-## Current Features
-
+## what it does
 - Virtual 1 MB disk using `disk.img`
 - 4 KB blocks
 - Block allocation using a bitmap
