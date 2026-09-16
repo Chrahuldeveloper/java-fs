@@ -1,0 +1,25 @@
+# Compiled Java files
+*.class
+bin/
+out/
+target/
+
+# Virtual filesystem disk
+disk.img
+*.img
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
