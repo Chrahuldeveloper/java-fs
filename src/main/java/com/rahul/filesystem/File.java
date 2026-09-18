@@ -20,12 +20,9 @@ class File {
         for (int i = 2; i < 256; i++) {
             if (bitmap[i] == 0) {
                 return i;
-
             }
-
         }
         return -1;
-
     }
 
     public void createfile(String filename) {
@@ -40,6 +37,21 @@ class File {
         writeblock(freeblock, data);
         writeblock(1, bitmap);
     }
+
+
+    public void deletefile(String filename){
+        for(int i = 2;i<256;i++){
+            if(bitmap[i] == 1){
+                byte[] data = disk.read((long) i * 4096);
+                String bytesToName = new String(data).trim();
+                if(bytesToName.equals(filename)){
+                    bitmap[i] = 0;
+                }
+            }
+        }
+
+    }
+
 
     public static void main(String args[]) {
 
