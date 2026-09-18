@@ -16,7 +16,6 @@ class File {
     }
 
     public int findfreeblock() {
-
         for (int i = 2; i < 256; i++) {
             if (bitmap[i] == 0) {
                 return i;
@@ -43,7 +42,7 @@ class File {
         for(int i = 2;i<256;i++){
             if(bitmap[i] == 1){
                 byte[] data = disk.read((long) i * 4096);
-                String bytesToName = new String(data).trim();
+                String bytesToName = new String(data, 0, 256).trim();
                 if(bytesToName.equals(filename)){
                     bitmap[i] = 0;
                 }
@@ -57,15 +56,35 @@ class File {
         for(int i = 2;i<256;i++){
              if(bitmap[i] == 1){
                 byte[] data = disk.read((long) i * 4096);
-                String bytesToName = new String(data).trim();
+                String bytesToName = new String(data, 0, 256).trim();
                 if(bytesToName.equals(filename)){
                 byte[] contentData = content.getBytes();
-                writeblock(i, contentData);
+                long contentPosition = (long) i * 4096 + 256;
+
+                disk.seek(contentPosition);
+                disk.write(contentData);
+
                 System.out.println("written to " + filename);
+
+
                 }
             }
         }
+    }
 
+
+    public String readText(String filename){
+          for(int i = 2;i<256;i++){
+             if(bitmap[i] == 1){
+                byte[] data = disk.read((long) i * 4096);
+                String bytesToName = new String(data, 0, 256).trim();
+                if(bytesToName.equals(filename)){
+                    String content = new String(data, 256, data.length - 256).trim();
+                    return content;
+                }
+            }
+
+          }
 
     }
 
