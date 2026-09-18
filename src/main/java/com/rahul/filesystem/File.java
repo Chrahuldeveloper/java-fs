@@ -53,6 +53,22 @@ class File {
     }
 
 
+    public void addText(String filename,String content){
+        for(int i = 2;i<256;i++){
+             if(bitmap[i] == 1){
+                byte[] data = disk.read((long) i * 4096);
+                String bytesToName = new String(data).trim();
+                if(bytesToName.equals(filename)){
+                byte[] contentData = content.getBytes();
+                writeblock(i, contentData);
+                System.out.println("written to " + filename);
+                }
+            }
+        }
+
+
+    }
+
     public static void main(String args[]) {
 
         Scanner scan = new Scanner(System.in);
