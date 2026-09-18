@@ -60,12 +60,9 @@ class File {
                 if(bytesToName.equals(filename)){
                 byte[] contentData = content.getBytes();
                 long contentPosition = (long) i * 4096 + 256;
-
                 disk.seek(contentPosition);
                 disk.write(contentData);
-
                 System.out.println("written to " + filename);
-
 
                 }
             }
