@@ -1,17 +1,37 @@
-# java fs
+# Mini File System
 
-A simple file system built from scratch in Java to understand how file systems work internally.
+A small file system built from scratch in Java to understand how operating systems store and manage files internally.
 
-## what it does
-- Virtual 1 MB disk using `disk.img`
-- 4 KB blocks
-- Block allocation using a bitmap
-- Basic file creation
+The project uses a normal file called `disk.img` as a **virtual disk**. Instead of creating real Linux files, the Java program manages bytes and blocks inside `disk.img`.
 
-## Structure
+---
+
+## How It Works
+
+The basic architecture is:
 
 ```text
-disk.img
-├── Block 0 → File system metadata
-├── Block 1 → Bitmap
-└── Block 2+ → File data
+                    MiniFS CLI
+                       │
+                       ▼
+                  FileSystem
+                       │
+             ┌─────────┼─────────┐
+             ▼         ▼         ▼
+          create      write     read
+             │         │         │
+             └─────────┼─────────┘
+                       ▼
+                    Disk.java
+                       │
+                       ▼
+                RandomAccessFile
+                       │
+                       ▼
+                    disk.img
+                       │
+                       ▼
+              Ubuntu File System
+                       │
+                       ▼
+                      SSD
