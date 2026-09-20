@@ -50,7 +50,7 @@ public class Disk {
     }
 
 
-    public void read(long position){
+    public byte[] read(long position){
         byte[] data = new byte[4096];
 
         try {

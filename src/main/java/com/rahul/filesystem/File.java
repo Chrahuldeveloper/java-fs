@@ -1,6 +1,7 @@
 package com.rahul.filesystem;
 import java.util.Scanner;
 import com.rahul.virtualdisk.Disk;
+import java.util.ArrayList;
 
 class File {
 
@@ -78,8 +79,30 @@ class File {
                 }
             }
           }
+            return null;
 
     }
+
+
+
+    public void ls(){
+      ArrayList<String> files = new ArrayList<>();
+        for(int i = 2;i<256;i++){
+            if(bitmap[i] == 1){
+                byte[] data = disk.read((long) i * 4096);
+                String bytesToName = new String(data, 0, 256).trim();
+                files.add(bytesToName);
+            }
+        }
+        if(files.size() == 0){
+            System.out.println("No files");
+        }
+        for(int j = 0;j<files.size();j++){
+            System.out.println(files.get(j));
+        }
+    }
+
+
 
     public static void main(String args[]) {
 
@@ -141,6 +164,8 @@ class File {
 
                 fs.deletefile(splitcmd[1]);
 
+            } else if("ls".equals(splitcmd[0])){
+                fs.ls();
             } else {
 
                 System.out.println("unknown command");
@@ -148,7 +173,6 @@ class File {
             }
         }
 
-        scan.close();
-        fs.disk.close();
+
     }
 }
