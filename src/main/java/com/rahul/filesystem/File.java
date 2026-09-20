@@ -1,7 +1,5 @@
 package com.rahul.filesystem;
-
 import java.util.Scanner;
-
 import com.rahul.virtualdisk.Disk;
 
 class File {
@@ -51,7 +49,6 @@ class File {
 
     }
 
-
     public void addText(String filename,String content){
         for(int i = 2;i<256;i++){
              if(bitmap[i] == 1){
@@ -80,7 +77,6 @@ class File {
                     return content;
                 }
             }
-
           }
 
     }
@@ -94,20 +90,65 @@ class File {
         fs.writeblock(1, fs.bitmap);
 
         while (true) {
+
             String cmd = scan.nextLine();
-            String[] splitcmd = cmd.split(" ", 2);
-            String filename = splitcmd[1];
 
-            if ("cr".equals(splitcmd[0])) {
-                System.out.println("creating file");
-                fs.createfile(filename);
-
-            } else if ("exit".equals(cmd)) {
+            if ("exit".equals(cmd)) {
                 break;
-            } else {
-                System.out.println("");
             }
 
+            String[] splitcmd = cmd.split(" ", 3);
+
+            if ("cr".equals(splitcmd[0])) {
+
+                if (splitcmd.length < 2) {
+                    System.out.println("Usage: cr <filename>");
+                    continue;
+                }
+
+                fs.createfile(splitcmd[1]);
+
+            } else if ("write".equals(splitcmd[0])) {
+
+                if (splitcmd.length < 3) {
+                    System.out.println("Usage: write <filename> <content>");
+                    continue;
+                }
+
+                fs.addText(splitcmd[1], splitcmd[2]);
+
+            } else if ("read".equals(splitcmd[0])) {
+
+                if (splitcmd.length < 2) {
+                    System.out.println("Usage: read <filename>");
+                    continue;
+                }
+
+                String content = fs.readText(splitcmd[1]);
+
+                if (content != null) {
+                    System.out.println(content);
+                } else {
+                    System.out.println("file not found");
+                }
+
+            } else if ("delete".equals(splitcmd[0])) {
+
+                if (splitcmd.length < 2) {
+                    System.out.println("Usage: delete <filename>");
+                    continue;
+                }
+
+                fs.deletefile(splitcmd[1]);
+
+            } else {
+
+                System.out.println("unknown command");
+
+            }
         }
+
+        scan.close();
+        fs.disk.close();
     }
 }
